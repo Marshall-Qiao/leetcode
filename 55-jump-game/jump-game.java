@@ -1,0 +1,15 @@
+class Solution {
+    public boolean canJump(int[] nums) {
+       if(nums == null || nums.length == 0) return true;
+       boolean[] visited = new boolean[nums.length];
+       visited[0] = true; 
+       for(int i = 0; i< nums.length;i++){
+          if(!visited[i]) return false;
+          if(i+nums[i] >= nums.length-1) return true;
+          for(int j=i+1;j<= i+nums[i];j++){
+             visited[j] = true;
+          }
+       }
+       return true;
+    }
+}
