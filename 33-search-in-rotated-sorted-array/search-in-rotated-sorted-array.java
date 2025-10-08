@@ -9,7 +9,7 @@ class Solution {
        while (l <= r) {
             int mid = l + (r - l) / 2;
             if (nums[mid] == target) return mid;
-            boolean atIncreaseLeft = nums[l] <= nums[mid] && nums[l] <= target &&  target < nums[mid];
+            boolean atIncreaseLeft = nums[l] < nums[mid] && nums[l] <= target &&  target < nums[mid];
             boolean atNoIncreaseLeft = nums[l] > nums[mid] && (nums[l] <= target ||  target < nums[mid]);
             if (atIncreaseLeft || atNoIncreaseLeft) {
                 r = mid - 1;
