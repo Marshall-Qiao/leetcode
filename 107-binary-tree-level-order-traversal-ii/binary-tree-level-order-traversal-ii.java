@@ -16,7 +16,6 @@
 class Solution {
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
         
-        if (root == null) return new ArrayList<>();
         List<List<Integer>> res = new ArrayList<>();
         addDFSList(root, null, 0 ,res);
         Collections.reverse(res);
