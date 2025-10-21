@@ -1,26 +1,23 @@
 class Solution {
     public boolean canPlaceFlowers(int[] flowerbed, int n) {
-        // [1,0,0,0,0,0,1,0,0] 
-
-        // n=3 （3-2 +1）/2  1   
-        // n= 4 (4-2 +1)/2   1
-        // (n-2+1)/2
-        int[] all = new int[flowerbed.length+3];
-        all[0] = 0;
-        all[flowerbed.length+1] = 0;
-        all[flowerbed.length+2] = 1;
-        for(int i = 0; i < flowerbed.length; i++) all[i+1] = flowerbed[i];
-
-        int l = 0, start = 0, count= 0;
-        while (l < all.length) {
-            if (all[l] == 1) {
-                int m = l - start;
-                count += Math.max(0,(m-2+1)/2);
-                start = l+1;
-            }
-            l++;
+        if (flowerbed.length == 1 && flowerbed[0] == 0) return n <= 1;
+        
+        int maxTime = 0;
+        if (flowerbed[0] == 0 && flowerbed.length >= 2 && flowerbed[1] == 0){
+            maxTime++;
+            flowerbed[0] = 1;
+        }
+        if (flowerbed[flowerbed.length - 1] == 0 && flowerbed.length >= 2 && flowerbed[flowerbed.length - 2] == 0){
+            maxTime++;
+            flowerbed[flowerbed.length - 1] = 1;
         }
 
-        return count >= n;
+        for (int i = 1; i < flowerbed.length - 1; i++){
+            if (flowerbed[i - 1] == 0 && flowerbed[i] == 0 && flowerbed[i + 1] == 0) {
+                maxTime++;
+                flowerbed[i] = 1;
+            }
+        }
+        return maxTime >= n;
     }
 }
