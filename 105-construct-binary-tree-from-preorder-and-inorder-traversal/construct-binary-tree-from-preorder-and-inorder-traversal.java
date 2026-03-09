@@ -14,22 +14,29 @@
  * }
  */
 class Solution {
-    private int preIndex = 0; // 全局指针
-
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        Map<Integer, Integer> valToIndex = new HashMap<>();
-        for (int i = 0; i < inorder.length; i++) valToIndex.put(inorder[i],i);
-        return build(preorder, 0, preorder.length - 1, valToIndex);
+        Map<Integer, Integer> inorderMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inorderMap.put(inorder[i], i);
+        }
+        return buildTreeByIndex(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, inorderMap);
+    }
+    public TreeNode buildTreeByIndex(int[] preorder, int preLeft, int preRight, int[] inorder, int inLeft, int inRight, Map<Integer, Integer> inorderMap) {
+        if (preLeft > preRight) return null;
+        if (preLeft == preRight) return new TreeNode(preorder[preLeft]);
+
+        TreeNode newTemp = new TreeNode(preorder[preLeft]);
+        int tempIndex = inorderMap.get(preorder[preLeft]);
+        int leftCount = tempIndex - inLeft;
+        int rightCount = inRight - tempIndex;
+        if (leftCount >= 1) {
+            newTemp.left = buildTreeByIndex(preorder, preLeft + 1, preLeft + leftCount, inorder, inLeft, tempIndex - 1, inorderMap);
+        }
+
+        if (rightCount >= 1) {
+            newTemp.right = buildTreeByIndex(preorder, preRight - rightCount + 1, preRight, inorder, tempIndex + 1, inRight, inorderMap);
+        }
+        return newTemp;
     }
 
-    public TreeNode build(int[] preorder, int start, int end, Map<Integer, Integer> valToIndex) {
-        if (start > end) return null;
-        TreeNode root = new TreeNode(preorder[preIndex]);
-        int inOrderIndex = valToIndex.get(preorder[preIndex]);
-        preIndex++;
-        
-        root.left = build(preorder, start, inOrderIndex - 1, valToIndex);
-        root.right = build(preorder, inOrderIndex + 1, end, valToIndex);
-        return root;
-    }
 }
