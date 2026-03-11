@@ -1,38 +1,16 @@
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> res = new LinkedList<List<Integer>>();
-        Stack<Integer> q = new Stack<Integer>();
-        res.add(queueToList(q));
+        List<List<Integer>> result = new ArrayList<>();
+        backTrack(nums, 0, new LinkedList<>(), result);
+        return result;
+    }
+    public void backTrack(int[] nums, int index, List<Integer> list, List<List<Integer>> result) {
+        result.add(new ArrayList<>(list));
 
-        // in we add
-        // out we dont handle;
-        // addInfoIntoQueue(res,q,null);
-        for(int j = 0; j< nums.length;j++){
-            dp(res,q,nums,j);
+        for (int i = index; i < nums.length; i++) {
+            list.add(nums[i]);
+            backTrack(nums, i + 1, list, result);
+            list.removeLast();
         }
-       
-        return res;
-    }
-
-    public void dp(List<List<Integer>> res,Stack<Integer> q,int[] nums,int start) {
-        if(start >= nums.length) return;
-        addInfoIntoQueue(res,q,nums[start]);
-        for(int j = start+1; j< nums.length;j++){
-            dp(res,q,nums,j);
-        }
-        q.pop();
-    }
-
-    public void addInfoIntoQueue(List<List<Integer>> res,Stack<Integer> q,int info){
-        q.add(info);
-        res.add(queueToList(q));
-    }
-
-    public List<Integer> queueToList(Stack<Integer> q){
-       List<Integer> list = new ArrayList<Integer>();
-       for(Integer info: q){
-         list.add(info);
-       }
-       return list;
     }
 }
