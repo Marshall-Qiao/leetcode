@@ -5,4 +5,3 @@ class Solution:
             if target - nums[n] in map:
                 return [map[target - nums[n]], n]
             map[nums[n]] = n
-        return []
