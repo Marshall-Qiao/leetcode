@@ -1,13 +1,11 @@
 class Solution {
     public String reverseWords(String s) {
         s = s.trim();
-        String[] strList = s.split(" ");
-        String res = "";
-        boolean isLastTrim = true;
-        for (int i = strList.length - 1; i >= 0; i--) {
-            res += (isLastTrim ? "" : " ") + strList[i];
-            isLastTrim = (strList[i]).equals("");
-        } 
-        return res;
+        String[] list = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (int i = list.length - 1; i >= 0; i--) {
+            if(list[i] != null && !"".equals(list[i])) sb.append(list[i] + " ");
+        }
+        return sb.toString().trim();
     }
 }
