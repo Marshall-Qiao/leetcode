@@ -1,50 +1,31 @@
 class Solution {
     public String convert(String s, int numRows) {
-        // 00        03      06
-        //       12  13   15 16
-        //     21    23
-        //           43  
-        
-        // for(int i = 0; i < numRows;i++){
+        if(numRows == 1) return s;
+        StringBuffer sb = new StringBuffer();
+        // 1 7 13
+        // n * (行 + 行 - 2) + 当前行 ，（n+1） * (行) + 行 -   n 0.1.2.3.4
+        // n * (行 + 行 - 2) + 当前行， （n+1） * (行) + 行 
+        // those two same no need add;     
+        // 1       7           13
+        // 2    6  8       12  14
+        // 3  5    9   11      15
+        // 4       10
+        int round = 2 * numRows - 2;
+        for (int row = 0; row < numRows; row++) {
+            for (int i = 0; i < s.length()/numRows + 1; i++) {
+                int fIdx = i * round + row;
+                if (fIdx > s.length() - 1) break;
+                sb.append(s.charAt(fIdx) + "");
 
-            //  i(numRows-1)*0       i[(numRows-1) *1]      i[(numRows-1)*2]
-                //   (numRows-1) *1 < [j] == (numRows-1) *1 - i < (numRows-1)
-            // (
-                // j%(numRows-1) == 0  + i
-                // j%(numRows-1) != 0  numRows + numRows-i
-        //    int col = 0;
-        //    while(true){
-        //       int j = (numRows-1) * col;
-        //       if(i !=0 && i != numRows -1){
-        //          int j1 = (numRows-1) *col - i;
-        //          if(j1>(numRows-1)*(col-1) && j1<j){
-        //             int n = (j+1)/numRows * (numRows+numRows-2) + numRows + numRows-i;
-        //             if(n>=s.length()) break;
-        //             list.add(s.charAt(n));
-        //          }
-        //       }
-        //        int m = (j+1)/numRows * (numRows+numRows-2) + i;
-        //        if( m >=s.length()) break;
-        //        list.add(s.charAt(m));
-        //        col++;
-        //    }
-        // }
-        if (numRows == 1 || s.length() <= numRows) return s;
-
-
-        List<String> list = new ArrayList<>();
-        int cycle = 2 * numRows - 2 ;
-        for(int i = 0;i<numRows;i++){
-            for(int j = i; j < s.length();j += cycle){
-                list.add(s.charAt(j)+"");
-                int diag = j + cycle - 2*i;
-                if(i != 0 && i != numRows - 1 && diag < s.length()){
-                    list.add(s.charAt(diag)+"");
+                if (row == 0 || row == numRows - 1){
+                     continue;
                 }
+
+                int sIdx = i * round + round - row ;
+                if (sIdx > s.length() - 1) break;
+                sb.append(s.charAt(sIdx) + "");
             }
         }
-
-        return String.join("", list);
-
+        return sb.toString();
     }
 }
